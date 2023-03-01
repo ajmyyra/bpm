@@ -11,7 +11,7 @@ var (
 	rootCmd   = &cobra.Command{
 		Use:   "bpm",
 		Short: "bpm - Binary Package Manager",
-		Long:  `Binary Package Manager keeps track of your binary applications and helps to keep them up to date.`,
+		Long:  `Binary Package Manager keeps track of your binary applications and helps to keep them up to date`,
 	}
 )
 
