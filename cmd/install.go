@@ -41,7 +41,7 @@ bpm install kubernetes-sigs/cluster-api clusterctl`,
 		}
 
 		if len(details.Releases) == 0 {
-			fmt.Printf("No releases available, see %s\n")
+			fmt.Printf("No releases available, see %s\n", details.Url)
 			os.Exit(1)
 		}
 
@@ -66,11 +66,17 @@ bpm install kubernetes-sigs/cluster-api clusterctl`,
 
 		asset := util.FindMatchingReleaseAsset(projDetails.Package, release.Version, release.Assets)
 		if asset == nil {
-			fmt.Printf("no suitable asset available, see %s\n", release.Url)
+			fmt.Printf("No suitable asset available, see %s\n", release.Url)
 			os.Exit(1)
 		}
 
-		fmt.Println("TODO: would download", asset.DownloadURL)
+		// TODO actual location from config
+		if err = util.DownloadAndMoveToLocation(asset.DownloadURL, "/tmp/", projDetails.Package); err != nil {
+			fmt.Printf("Downloading asset %s failed: %w\n", asset.DownloadURL, err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Package %s (version %s) downloaded succesfully.\n", projDetails.Package, release.Version)
 	},
 }
 
